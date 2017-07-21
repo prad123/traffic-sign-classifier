@@ -19,7 +19,7 @@ The goals / steps of this project are the following:
 [image4]: ./output_images/translate.png "Traffic Sign 1"
 [image5]: ./output_images/rotate.png "Traffic Sign 2"
 [image6]: ./output_images/scale.png "Traffic Sign 3"
-[image7]: ./output_images/placeholder.png "Traffic Sign 4"
+[image7]: ./output_images/fake_counts.png "Traffic Sign 4"
 [image8]: ./output_images/placeholder.png "Traffic Sign 5"
 
 ---
@@ -91,27 +91,49 @@ So I decided to try that, since we saw from the bar chart that some of the class
 
 ![alt text][image6]
 
-I added images to each class to bring the count up to 1000 for the classes that were under that. Here's what that bar chart looks like now:
+I added images to each class to bring the count up to 750 for the classes that were under that. Here's what that bar chart of class counts looks like now:
 
-![alt text][image6]
+![alt text][image7]
+
+This technique didn't increase the accuracy like I was hoping, but it certainly didn't hurt.
 
 
-####2. Describe what your final model architecture looks like including model type, layers, layer sizes, connectivity, etc.) Consider including a diagram and/or table describing the final model.
+#### 2. Describe what your final model architecture looks like including model type, layers, layer sizes, connectivity, etc.) Consider including a diagram and/or table describing the final model.
 
-My final model consisted of the following layers:
+My architecture is derived mostly from the LeNet network, with some modifications from [this paper](http://yann.lecun.com/exdb/publis/pdf/sermanet-ijcnn-11.pdf). I added `tanh`
 
-| Layer         		|     Description	        					|
-|:---------------------:|:---------------------------------------------:|
-| Input         		| 32x32x3 RGB image   							|
-| Convolution 3x3     	| 1x1 stride, same padding, outputs 32x32x64 	|
-| RELU					|												|
-| Max pooling	      	| 2x2 stride,  outputs 16x16x64 				|
-| Convolution 3x3	    | etc.      									|
-| Fully connected		| etc.        									|
-| Softmax				| etc.        									|
-|						|												|
-|						|												|
+##### Input
+My model accepts 32x32x1 image as input - I converted all the training images to grayscale hence the 1 color channel input.
 
+##### Architecture
+
+**Layer 1:** Convolutional. The output shape is 28x28x6.
+
+**Activation.** Tanh activations
+
+**Pooling** The output shape is 14x14x6.
+
+**Layer 2:** Convolutional. The output shape is 10x10x16.
+
+**Activation.** Tanh activation.
+
+**Pooling.** The output shape is 5x5x16.
+
+**Flatten.** Flatten the output shape of the final pooling layer such that it's 1D.
+
+**Layer 3:** Fully Connected. 120 outputs.
+
+**Activation.** Tanh activation.
+
+**Dropout.** 50% dropout prob
+
+**Layer 4:** Fully Connected. 84 outputs.
+
+**Activation.** Tanh activation.
+
+**Dropout.** 50% dropout prob
+
+**Layer 5:** Fully Connected (Logits). 43 outputs.
 
 
 ####3. Describe how you trained your model. The discussion can include the type of optimizer, the batch size, number of epochs and any hyperparameters such as learning rate.
