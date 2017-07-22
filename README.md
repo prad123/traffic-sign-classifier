@@ -1,4 +1,4 @@
-#**Traffic Sign Recognition**
+# Traffic Sign Recognition
 
 **Build a Traffic Sign Recognition Project**
 
@@ -38,7 +38,7 @@ You're reading it! and here is a link to my [project code](https://github.com/rk
 
 #### 1. Provide a basic summary of the data set. In the code, the analysis should be done using python, numpy and/or pandas methods rather than hardcoding results manually.
 
-I used the pandas library to calculate summary statistics of the traffic
+I used the python functions and numpy to calculate summary statistics of the traffic
 signs data set:
 
 * The size of training set is 34799
@@ -106,7 +106,7 @@ Because I increased the size of the training sample, I decided to split the trai
 
 #### 2. Describe what your final model architecture looks like including model type, layers, layer sizes, connectivity, etc.) Consider including a diagram and/or table describing the final model.
 
-My architecture is derived mostly from the LeNet network, with some modifications from [this paper](http://yann.lecun.com/exdb/publis/pdf/sermanet-ijcnn-11.pdf). I added `tanh`
+My architecture is derived mostly from the LeNet network, with some modifications from [this paper](http://yann.lecun.com/exdb/publis/pdf/sermanet-ijcnn-11.pdf).
 
 ##### Input
 My model accepts 32x32x1 image as input - I converted all the training images to grayscale hence the 1 color channel input.
@@ -146,26 +146,26 @@ My model accepts 32x32x1 image as input - I converted all the training images to
 
 To train the model, I used the `softmax_cross_entropy_with_logits` to calculate the loss, and the Adam Optimizer to minimize the loss on the mean of the cross entropy.
 
-I used a learning rate of 0.001, with a batch size of 128 and 25 EPOCHS. I used the standard mu and standard deviation of 0 and 0.1 respectively in my initial weights. Also, I set my dropout probability to 0.5. There is a section called **Training Log** in the ipython notebook that goes through all the combinations that I tried.
+I used a learning rate of 0.001, with a batch size of 128 and 20 EPOCHS. I used the standard mu and standard deviation of 0 and 0.1 respectively in my initial weights. Also, I set my dropout probability to 0.5. There is a section called **Training Log** in the ipython notebook that goes through all the combinations that I tried.
 
 #### 4. Describe the approach taken for finding a solution and getting the validation set accuracy to be at least 0.93. Include in the discussion the results on the training, validation and test sets and where in the code these were calculated. Your approach may have been an iterative process, in which case, outline the steps you took to get to the final solution and why you chose those steps. Perhaps your solution involved an already well known implementation or architecture. In this case, discuss why you think the architecture is suitable for the current problem.
 
 My final model results were:
-* training set accuracy:   99.2%
-* validation set accuracy: 96.5%
-* test set accuracy:       94.2%
+* training set accuracy:   98.8%
+* validation set accuracy: 95.6%
+* test set accuracy:       94.0%
 
 * What was the first architecture that was tried and why was it chosen?
     - I chose to start with the standard LeNet architecture, using the raw images from the dataset provided. It was clear after that initial run that I was going to need to tweak the model to improve the accuracy, as this produced less than 90% accuracy on the validation set.
 * What were some problems with the initial architecture?
-    -
+    - The model was overfitting
 * How was the architecture adjusted and why was it adjusted?
-    - I read through the paper mentioned in the project, and saw that they mentioned using hyperbolic tangent activation functions, so I tried that and found an increas in accuracy. The authors mention that "Finding the optimal architecture of a ConvNet for a given task remains mainly empirical." So I didn't feel bad using a guess and check approach.
-    - I thought that adding dropout layers to the network might add some robustness, so I also added these layers after the final two activations and found an improvement in validation accuracy.
+    - I read through the paper mentioned in the project, and saw that they mentioned using hyperbolic tangent activation functions, so I tried that and found an increase in accuracy. The authors mention that "Finding the optimal architecture of a ConvNet for a given task remains mainly empirical." So I didn't feel bad using a guess and check approach.
+    - I thought that adding dropout layers to the network might add some robustness and decrease the overfitting, so I also added these layers after the final two activations and found an improvement in validation accuracy.
     - I ended up with a network that is probably overfitting slightly, but it seems to be good enough for our purposes.
 
 * Which parameters were tuned? How were they adjusted and why?
-    - I did play around with the learning rate much, as my model seemed to converge given the EPOCH settings. I did, however add more EPOCHs when I incresed the size of the training set. I thought that with more data the network might need more time to complete the training, and that seemed to help.
+    - I did play around with the learning rate much, as my model seemed to converge given the EPOCH settings. I did, however add more EPOCHs when I increased the size of the training set. I thought that with more data the network might need more time to complete the training, and that seemed to help.
 
 * What are some of the important design choices and why were they chosen? For example, why might a convolution layer work well with this problem? How might a dropout layer help with creating a successful model?
     - The `tanh` activations add another step of non-linearity in the model, which seemed to help the accuracy on the validation set to get it more in line with the training set.
@@ -203,9 +203,8 @@ And here are the values for those bars.
 
 | Probability  	|     Prediction	|
 |:-------------:|:-----------------:|
-| .916          | Road Work   		|
-| .627	        | Pedestrians 		|
-| .0095         | General Caution	|
+| .953          | Road Work   		|
+| .0195	        | Road narrows on the right 		|
+| .0167         | Beware of ice/snow	|
 
-
-The rest of the images all produced >99% probabilities for their predictions.
+The general caution image produced a 96.9% softmax probability for it's caliification, and the rest of the images all produced >99% probabilities for their predictions.
