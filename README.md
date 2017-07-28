@@ -20,12 +20,12 @@ The goals / steps of this project are the following:
 [image5]: ./output_images/rotate.png "rotate example"
 [image6]: ./output_images/scale.png "scale example"
 [image7]: ./output_images/fake_counts.png "fake data counts"
-[image8]: ./new_images/sign1.png "Traffic Sign 1"
-[image9]: ./new_images/sign2.png "Traffic Sign 2"
-[image10]: ./new_images/sign3.png "Traffic Sign 3"
-[image11]: ./new_images/sign4.png "Traffic Sign 4"
-[image12]: ./new_images/sign5.png "Traffic Sign 5"
-[image13]: ./output_images/softmax_probs.png "Traffic Sign 5"
+[image8]: ./output_images/sign1_scaled.png "Traffic Sign 1"
+[image9]: ./output_images/sign2_scaled.png "Traffic Sign 2"
+[image10]: ./output_images/sign3_scaled.png "Traffic Sign 3"
+[image11]: ./output_images/sign4_scaled.png "Traffic Sign 4"
+[image12]: ./output_images/sign5_scaled.png "Traffic Sign 5"
+[image13]: ./output_images/softmax_probs.png "softmax probs"
 
 ---
 ### Writeup / README
@@ -180,12 +180,15 @@ My final model results were:
 
 #### 1. Choose five German traffic signs found on the web and provide them in the report. For each image, discuss what quality or qualities might be difficult to classify.
 
-Here are five German traffic signs that I found on the web:
+I found five German traffic signs on the web. I cropped them to just include the sign before reading them into python. After I read them in, I resized them to 32x32 and converted them to grayscale. I then normalized them the same way I did with the training data. Here's what they looked like:
 
 ![alt text][image8] ![alt text][image9] ![alt text][image10]
 ![alt text][image11] ![alt text][image12]
 
-I cropped them to just include the sign before reading them into python. After I read them in, I resized them to 32x32 and converted them to grayscale. I then normalized them the same way I did with the training data.
+
+I expected the model to have trouble with the 30 km/hr speed limit sign because the numbers get quite pixelated at the 32x32 resolution, so it seemed that the model may struggle classifying a 3 vs a 2 or another number.
+
+Also the 'no entry' and 'road work' signs seemed like they would be a challenge because of the noisiness of the backgrounds. The road work sign has a tree trunk in the background which adds a new shape to the frame, while the 'no entry' sign has a general cityscape backdrop.
 
 #### 2. Discuss the model's predictions on these new traffic signs and compare the results to predicting on the test set. At a minimum, discuss what the predictions were, the accuracy on these new predictions, and compare the accuracy to the accuracy on the test set.
 
@@ -193,18 +196,20 @@ The model was able to correctly guess all 5 new traffic signs, which gives an ac
 
 #### 3. Describe how certain the model is when predicting on each of the five new images by looking at the softmax probabilities for each prediction. Provide the top 5 softmax probabilities for each image along with the sign type of each probability.
 
-The model seems to be very certain, when making predictions on these new images. The least certain prediction was for "Road Work" sign. Here's the bar chart of those probabilities:
+The model seems to be very certain, when making predictions on these new images. The least certain prediction was for "30 km/h speed limit" sign. Here's the bar chart of those probabilities:
 
 
-![alt text][image10]
+![alt text][image11]
 ![alt text][image13]
 
 And here are the values for those bars.
 
-| Probability  	|     Prediction	|
-|:-------------:|:-----------------:|
-| .953          | Road Work   		|
-| .0195	        | Road narrows on the right 		|
-| .0167         | Beware of ice/snow	|
+| Probability   |     Prediction                |
+|:-------------:|:-----------------------------:|
+| .832          | Speed limit (30km/h)          |
+| .166          | Speed limit (20km/h)          |
+| .013          | End of speed limit (80km/h)   |
+| .0096         | Speed limit (80km/h)          |
+| .0080         | Stop                          |
 
-The general caution image produced a 96.9% softmax probability for it's caliification, and the rest of the images all produced >99% probabilities for their predictions.
+The rest of the images had 99% softmax probabilities.
